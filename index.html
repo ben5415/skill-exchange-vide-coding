@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f2ea" />
+    <title>换一课｜技能互换</title>
+    <meta name="description" content="用你会的，换你想学的。纯前端技能互换平台 Demo。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#" aria-label="换一课首页">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+          <span>换一课</span>
+        </a>
+
+        <nav class="nav" aria-label="主导航">
+          <a class="nav-link active" href="#match"><span class="nav-icon">⌁</span>发现匹配</a>
+          <a class="nav-link" href="#skills"><span class="nav-icon">◇</span>我的技能</a>
+          <a class="nav-link" href="#requests"><span class="nav-icon">↗</span>交换邀约 <b id="navCount">2</b></a>
+          <a class="nav-link" href="#favorites"><span class="nav-icon">♡</span>我的收藏</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="tip-card">
+            <span class="spark">✦</span>
+            <p>完善空闲时间，能让匹配准确度提升</p>
+            <button type="button" id="completeProfile">去完善</button>
+          </div>
+          <div class="user-mini">
+            <div class="avatar avatar-me">林</div>
+            <div><strong>林默</strong><span>悉尼 · GMT+11</span></div>
+            <button type="button" aria-label="更多选项">•••</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main" id="match">
+        <header class="mobile-head">
+          <a class="brand" href="#"><span class="brand-mark"><i></i><i></i></span><span>换一课</span></a>
+          <button class="menu-btn" type="button" id="menuBtn" aria-label="打开菜单">☰</button>
+        </header>
+
+        <section class="intro">
+          <div>
+            <p class="eyebrow">你好，林默 <span>👋</span></p>
+            <h1>今天，想交换<br />什么新技能？</h1>
+          </div>
+          <div class="intro-note">
+            <span>本周匹配</span><strong>12</strong><small>比上周多 4 个合适人选</small>
+          </div>
+        </section>
+
+        <section class="intent-card" aria-labelledby="intent-title">
+          <div class="intent-label">
+            <span class="round-icon">↘</span>
+            <div><small id="intent-title">我想学</small><strong id="currentSkill">人像摄影</strong></div>
+          </div>
+          <div class="skill-switcher" role="group" aria-label="切换想学的技能">
+            <button class="skill-pill active" type="button" data-skill="人像摄影">人像摄影</button>
+            <button class="skill-pill" type="button" data-skill="Python">Python</button>
+            <button class="skill-pill" type="button" data-skill="木吉他">木吉他</button>
+            <button class="skill-pill add" type="button" id="addSkill" aria-label="添加技能">＋</button>
+          </div>
+          <div class="teach-label">
+            <span>可用来交换</span><strong>UI 设计 · Figma</strong>
+          </div>
+        </section>
+
+        <section class="match-section">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">为你精选</p>
+              <h2><span id="resultCount">4</span> 位高匹配伙伴</h2>
+            </div>
+            <div class="filters">
+              <button class="filter-btn active" type="button" data-filter="all">综合推荐</button>
+              <button class="filter-btn" type="button" data-filter="mutual">双向匹配</button>
+              <button class="filter-btn" type="button" data-filter="online">可线上</button>
+            </div>
+          </div>
+
+          <div class="match-grid" id="matchGrid" aria-live="polite"></div>
+        </section>
+
+        <section class="activity" id="requests">
+          <div class="section-head compact">
+            <div><p class="eyebrow">正在进行</p><h2>交换动态</h2></div>
+            <button class="text-btn" type="button" id="viewAll">查看全部 →</button>
+          </div>
+          <div class="activity-row">
+            <div class="activity-avatars"><div class="avatar a5">周</div><div class="avatar avatar-me">林</div></div>
+            <div class="activity-copy"><strong>周屿接受了你的交换邀约</strong><span>吉他入门 ↔ Figma 组件设计</span></div>
+            <time>2 小时前</time>
+            <button type="button" class="outline-btn" data-action="message">发消息</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside class="profile-drawer" id="profileDrawer" aria-hidden="true" aria-label="匹配伙伴详情">
+      <button class="drawer-close" type="button" id="drawerClose" aria-label="关闭">×</button>
+      <div id="drawerContent"></div>
+    </aside>
+
+    <div class="modal-backdrop" id="modalBackdrop" role="presentation">
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="drawer-close" type="button" id="modalClose" aria-label="关闭">×</button>
+        <p class="eyebrow">发起交换</p>
+        <h2 id="modalTitle">和 <span id="inviteName"></span> 换一课</h2>
+        <div class="swap-visual">
+          <div><small>我来教</small><strong>UI 设计</strong></div><span>⇄</span><div><small>我想学</small><strong id="inviteSkill">人像摄影</strong></div>
+        </div>
+        <label class="field">想说的话<textarea id="inviteMessage" rows="4">嗨！我很喜欢你的作品和教学方式。想用一节 UI 设计课，交换一节你的技能课，我们可以先聊聊彼此的学习目标～</textarea></label>
+        <label class="field">期待方式<select id="inviteMode"><option>线上视频 · 60 分钟</option><option>线下见面 · 60 分钟</option><option>先聊聊再决定</option></select></label>
+        <button class="primary-btn full" type="button" id="sendInvite">发送交换邀约 <span>↗</span></button>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
